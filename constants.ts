@@ -3,19 +3,19 @@ import { Product } from './types';
 export const PRODUCTS: Product[] = [
   {
     id: 1,
-    name: "Lumina Gold Sérum",
+    name: " Natural Zensy - Herbal Breeze (Artesanal) - 50ml",
     price: 189.90,
     category: "Rosto",
-    description: "Sérum anti-idade com partículas de ouro 24k e ácido hialurônico. Revitaliza e ilumina a pele instantaneamente.",
+    description: "Cuide de si com o poder da natureza. O Desodorizante Natural Herbal Breeze da Zensy é um produto artesanal formulado para oferecer proteção eficaz e suave contra os odores, sem agredir a sua pele",
     image: "https://szkzznhlwerplyvtuoxl.supabase.co/storage/v1/object/public/box/site/produto2.jpeg",
     benefits: ["Anti-rugas", "Hidratação profunda", "Brilho natural"]
   },
   {
     id: 2,
-    name: "Essência Floral Rose",
+    name: " Natural Zensy 2 - Herbal Breeze (Artesanal) - 50ml",
     price: 249.50,
     category: "Perfume",
-    description: "Uma fragrância delicada com notas de rosa damascena, peônia e um toque de almíscar branco.",
+    description: "Cuide de si com o poder da natureza. O Desodorizante Natural Herbal Breeze da Zensy é um produto artesanal formulado para oferecer proteção eficaz e suave contra os odores, sem agredir a sua pele",
     image: "https://szkzznhlwerplyvtuoxl.supabase.co/storage/v1/object/public/box/site/produto1.jpeg",
     benefits: ["Longa duração", "Floral fresco", "Exclusivo"]
   },
