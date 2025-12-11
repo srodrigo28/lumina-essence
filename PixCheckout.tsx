@@ -1,4 +1,11 @@
 // Função utilitária para aplicar máscara de CPF
+function maskPhone(value: string) {
+  return value
+    .replace(/\D/g, '')
+    .replace(/(\d{2})(\d)/, '($1) $2')
+    .replace(/(\d{5})(\d)/, '$1-$2')
+    .slice(0, 15);
+}
 function maskCpf(value: string) {
   return value
     .replace(/\D/g, '')
@@ -27,7 +34,18 @@ interface PixCheckoutProps {
 
 export default function PixCheckout({ cart, total, onClose, onSuccess }: PixCheckoutProps) {
   const [status, setStatus] = useState<CheckoutStatus>(CheckoutStatus.IDLE);
-  const [userInfo, setUserInfo] = useState<UserInfo>({ name: '', email: '', cpf: '' });
+  const [userInfo, setUserInfo] = useState<UserInfo>({ name: '', email: '', cpf: '', phone: '' });
+    // Número do WhatsApp para envio de confirmação
+    // Função para abrir o WhatsApp Web com mensagem de confirmação
+    const handleSendWhatsApp = () => {
+      if (!userInfo.phone) {
+        alert('Informe o telefone para confirmação!');
+        return;
+      }
+      const phone = userInfo.phone.replace(/\D/g, '');
+      const msg = encodeURIComponent(`Olá! Confirmação de compra no Lumina Essence para o telefone ${userInfo.phone}.`);
+      window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+    };
   const [pixData, setPixData] = useState<PixData | null>(null);
 
   const handleGeneratePix = async (e: React.FormEvent) => {
@@ -130,6 +148,29 @@ export default function PixCheckout({ cart, total, onClose, onSuccess }: PixChec
       </div>
 
       <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-stone-700 mb-1">Telefone WhatsApp Confirmação</label>
+                  <div className="flex gap-2">
+                    <input
+                      required
+                      type="text"
+                      placeholder="(11) 99999-9999"
+                      className="w-full border border-stone-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-brand-200 focus:border-brand-400 outline-none transition"
+                      value={userInfo.phone || ''}
+                      onChange={e => setUserInfo({
+                        ...userInfo,
+                        phone: maskPhone(e.target.value)
+                      })}
+                    />
+                    <button
+                      type="button"
+                      className="bg-green-600 text-white px-3 py-2 rounded hover:bg-green-700 transition"
+                      onClick={handleSendWhatsApp}
+                    >
+                      Enviar WhatsApp
+                    </button>
+                  </div>
+                </div>
         <div>
           <label className="block text-sm font-medium text-stone-700 mb-1">Nome Completo</label>
           <input

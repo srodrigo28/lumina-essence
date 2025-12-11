@@ -30,6 +30,7 @@ export interface UserInfo {
   name: string;
   email: string;
   cpf: string;
+  phone?: string;
 }
 
 export interface PixData {
