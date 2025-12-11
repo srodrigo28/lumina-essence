@@ -1,3 +1,11 @@
+// Obtém a chave Pix do .env (Vite exige prefixo VITE_)
+const pixKey = import.meta.env.VITE_PIX_KEY;
+// Função utilitária para montar o campo da chave Pix corretamente
+function getPixField(key: string) {
+  if (!key) return 'chave-pix-nao-configurada';
+  const len = key.length.toString().padStart(2, '0');
+  return len + key;
+}
 import React, { useState, useEffect } from 'react';
 import { CartItem, CheckoutStatus, PixData, UserInfo } from './types';
 
@@ -19,9 +27,10 @@ export default function PixCheckout({ cart, total, onClose, onSuccess }: PixChec
 
     // Simulate API call to payment gateway
     setTimeout(() => {
+      const chavePixPayload = getPixField(pixKey);
       const mockPixData: PixData = {
-        qrCodeBase64: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-4266141740005204000053039865405${total.toFixed(2).replace('.', '')}5802BR5913Lumina Essence6008Sao Paulo62070503***6304E2CA`,
-        copyPasteKey: `00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-4266141740005204000053039865405${total.toFixed(2)}5802BR5913Lumina Essence6008Sao Paulo62070503***6304E2CA`,
+        qrCodeBase64: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=00020126580014BR.GOV.BCB.PIX01${chavePixPayload}5204000053039865405${total.toFixed(2).replace('.', '')}5802BR5913Lumina Essence6008Sao Paulo62070503***6304E2CA`,
+        copyPasteKey: `00020126580014BR.GOV.BCB.PIX01${chavePixPayload}5204000053039865405${total.toFixed(2)}5802BR5913 Lumina Essence6008Sao Paulo62070503***6304E2CA`,
         expiresAt: new Date(Date.now() + 15 * 60 * 1000) // 15 mins
       };
       setPixData(mockPixData);
