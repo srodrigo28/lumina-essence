@@ -1,3 +1,12 @@
+// Função utilitária para aplicar máscara de CPF
+function maskCpf(value: string) {
+  return value
+    .replace(/\D/g, '')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d)/, '$1.$2')
+    .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+    .slice(0, 14);
+}
 // Obtém a chave Pix do .env (Vite exige prefixo VITE_)
 const pixKey = import.meta.env.VITE_PIX_KEY;
 // Função utilitária para montar o campo da chave Pix corretamente
@@ -149,7 +158,10 @@ export default function PixCheckout({ cart, total, onClose, onSuccess }: PixChec
             placeholder="000.000.000-00"
             className="w-full border border-stone-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-brand-200 focus:border-brand-400 outline-none transition"
             value={userInfo.cpf}
-            onChange={e => setUserInfo({ ...userInfo, cpf: e.target.value })}
+            onChange={e => setUserInfo({
+              ...userInfo,
+              cpf: maskCpf(e.target.value)
+            })}
           />
         </div>
       </div>
